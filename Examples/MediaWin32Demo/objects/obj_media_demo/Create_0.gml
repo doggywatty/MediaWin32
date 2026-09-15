@@ -4,16 +4,16 @@
 global.MediaIsPlaying = false;
 media_is_playing = false;
 
-// Demo song state (procedural loop, built on first P press - see below).
-demo_song = -1;      // buffer-sound asset, -1 = not built yet
-demo_song_buf = -1;  // PCM buffer - must outlive the sound, freed on Game End
-demo_voice = -1;     // playing instance id, -1 = stopped
+// Demo sample state (procedural loop, built on first P press - see below).
+demo_sample = -1; // buffer-sound asset, -1 = not built yet
+demo_sample_buf = -1; // PCM buffer - must outlive the sound, freed on Game End
+demo_voice = -1; // playing instance id, -1 = stopped
 demo_gain = 1.0;
 monitoring = false;
 
 // Builds a seamless 4s A-major pad loop in memory, no audio assets needed.
 // Frequencies are integers so every voice completes whole cycles per loop.
-build_demo_song = function()
+build_demo_sample = function()
 {
     var _rate = 22050;
     var _secs = 4;
@@ -32,9 +32,7 @@ build_demo_song = function()
                + sin(2 * pi * _f3 * _t) * 0.20;
         buffer_write(_buf, buffer_s16, round(clamp(_s, -1, 1) * 30000));
     }
-    // NOTE: do NOT buffer_delete here - the sound references this memory.
-    // It stays alive until Game End (see Other_3).
-    demo_song_buf = _buf;
+    demo_sample_buf = _buf;
     var _snd = audio_create_buffer_sound(_buf, buffer_s16, _rate, 0, _frames, audio_mono);
     return _snd;
 };
