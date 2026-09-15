@@ -206,8 +206,6 @@ GMEXPORT double StartMediaMonitor()
 {
     cout << "mediaWin32 :: Starting Monitoring." << endl;
 
-    bool expected = false;
-
     /*
         original: xchg al, byte_18000B220, only spawn once
         we use atomic compare_exchange to match
